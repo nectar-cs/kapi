@@ -46,8 +46,24 @@ class KubeBroker:
       return False
 
   def out_cluster_connect(self):
+    if self.connect_with_token():
+      return True
+    else:
+      print(f"[KubeBroker] Falling back to kube config auth")
+      return self.connect_with_kube_config()
+
+  def connect_with_kube_config(self):
     try:
-      print(f"[KubeBroker] Cred discovery with {KubeBroker.kubectl()}")
+      config.load_kube_config()
+      return True
+    except Exception as e:
+      self.last_error = e
+      print(f"[KubeBroker] Kube config auth failed: {e}")
+      return False
+
+  def connect_with_token(self):
+    try:
+      print(f"[KubeBroker] Cred discovery with for token auth")
       user_token = KubeBroker.read_target_cluster_user_token()
       configuration = client.Configuration()
       configuration.host = KubeBroker.read_target_cluster_ip()
@@ -56,10 +72,10 @@ class KubeBroker:
       configuration.api_key = {"authorization": f"Bearer {user_token}"}
       client.Configuration.set_default(configuration)
       urllib3.disable_warnings()
-      print(f"[KubeBroker] Creds discovered with {KubeBroker.kubectl()}")
+      print(f"[KubeBroker] Cred discovered success for token auth")
       return True
     except Exception as e:
-      print(f"FAILED TO CONNECT {e}")
+      print(f"[KubeBroker] Cred discovered success for token auth: {e}")
       self.last_error = e
       return False
 
@@ -88,7 +104,10 @@ class KubeBroker:
 
   @staticmethod
   def jcmd(cmd_str):
-    return json.loads(KubeBroker.cmd(cmd_str))
+    try:
+      return json.loads(KubeBroker.cmd(cmd_str))
+    except:
+      return None
 
   @staticmethod
   def cmd(cmd_str):
@@ -104,5 +123,6 @@ class KubeBroker:
     if not self.is_connected:
       if not self.connect():
         raise BrokerConnException(self.last_error or "unknown")
+
 
 broker = KubeBroker()
