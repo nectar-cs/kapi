@@ -73,7 +73,7 @@ class KatSvc(KatRes):
 
   def flat_endpoints(self):
     raw_endpoints = self.raw_endpoints()
-    per_sub = lambda sub: [addr for addr in sub.addresses]
+    per_sub = lambda sub: [addr for addr in (sub.addresses or [])]
     return Utils.flatten([per_sub(sub) for sub in raw_endpoints.subsets])
 
   @property
