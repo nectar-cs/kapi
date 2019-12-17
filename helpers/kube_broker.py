@@ -95,9 +95,9 @@ class KubeBroker:
   @staticmethod
   def read_target_cluster_user_token():
     k = KubeBroker.kubectl()
-    sa_bundle = KubeBroker.jcmd(f"{k} get sa/nectar-dev -o json")
+    sa_bundle = KubeBroker.jcmd(f"{k} get sa/nectar-dev -n default -o json")
     secret_name = sa_bundle['secrets'][0]['name']
-    secret_bundle = KubeBroker.jcmd(f"{k} get secret {secret_name} -o json")
+    secret_bundle = KubeBroker.jcmd(f"{k} get secret {secret_name} -n default -o json")
     b64_user_token = secret_bundle['data']['token']
     out = str(base64.b64decode(b64_user_token))[2:-1]
     return out
