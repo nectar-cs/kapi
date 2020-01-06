@@ -1,11 +1,10 @@
 import re
 from typing import Optional, Dict, List
 
+from k8_kat.base.kube_broker import broker
 from kubernetes.client import V1Service, V1ReplicaSet, V1Pod, V1Deployment
 from kubernetes.client.rest import ApiException
 
-from helpers.kube_broker import broker
-from k8_kat.base.kat_res import KatRes
 from utils.utils import Utils
 
 
@@ -23,7 +22,6 @@ class ResUtils:
     row_values = []
     for i, sel in enumerate(all_selectors):
       booleans = [sel == lb for lb in all_labels]
-      # noinspection PyTypeChecker
       booleans.insert(0, row_names[i])
       row_values.append(booleans)
     return dict(
