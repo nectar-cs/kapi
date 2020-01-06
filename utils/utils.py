@@ -1,12 +1,30 @@
 import os
 import random
 import string
+import subprocess
 
 class Utils:
 
   @staticmethod
+  def shell_exec(cmd):
+    formatted_cmd = cmd.split(' ')
+    output = subprocess.run(
+      formatted_cmd,
+      stdout=subprocess.PIPE
+    )
+    return output.stdout
+
+  @staticmethod
   def run_env():
-    return os.environ.get('FLASK_ENV')
+    return os.environ.get('ENVIRONMENT', 'development')
+
+  @staticmethod
+  def is_prod():
+    return Utils.run_env() == 'production'
+
+  @staticmethod
+  def is_dev():
+    return Utils.run_env() == 'development'
 
   @staticmethod
   def is_test():
@@ -19,14 +37,6 @@ class Utils:
   @staticmethod
   def is_ci_keep():
     return os.environ.get("CI") == 'keep'
-
-  @staticmethod
-  def is_dev():
-    return Utils.run_env() == 'development'
-
-  @staticmethod
-  def is_prod():
-    return Utils.run_env() == 'production'
 
   @staticmethod
   def is_non_trivial(dict_array):

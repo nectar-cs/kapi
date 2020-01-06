@@ -2,7 +2,7 @@ from typing import Dict
 
 from kubernetes.client import V1ServicePort
 
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 from k8_kat.base.kat_res import KatRes
 from utils.utils import Utils
 

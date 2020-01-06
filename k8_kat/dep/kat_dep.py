@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from kubernetes.client import V1PodSpec, V1Container, V1Pod, V1Scale, V1ScaleSpec
 
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 from helpers.res_utils import ResUtils
 from k8_kat.base.kat_res import KatRes
 from k8_kat.pod.kat_pod import KatPod

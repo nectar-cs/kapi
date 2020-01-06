@@ -1,26 +1,25 @@
+from collections import UserList
 from typing import List
-
 from k8_kat.base.res_query import ResQuery
 
 
-class ResCollection(list):
+class ResCollection(UserList):
   def __init__(self):
     super().__init__()
     self.query: ResQuery = self.create_query()
-    self._actual = []
-    self._has_run = False
+    self._is_dirty = True
 
   def __getitem__(self, y):
-    # self.go()
-    return self._actual[y]
+    self.go()
+    return super().__getitem__(y)
 
   def __iter__(self):
-    # self.go()
-    return self._actual.__iter__()
+    self.go()
+    return super().__iter__()
 
   def __len__(self):
     self.go()
-    return len(self._actual)
+    return super().__len__()
 
   def find(self, name):
     candidates = self.names(name).go()
@@ -36,11 +35,13 @@ class ResCollection(list):
 
   def where(self, **query_hash):
     self.query.update(**query_hash)
+    self._is_dirty = True
     return self
 
   def ns(self, *_ns):
+    inst = self() if isinstance(self, type) else self
     actual = list(_ns[0]) if isinstance(_ns[0], list) else list(_ns)
-    return self.where(ns_in=actual)
+    return inst.where(ns_in=actual)
 
   def not_ns(self, *_ns):
     actual = list(_ns[0]) if isinstance(_ns[0], list) else list(_ns)
@@ -101,9 +102,9 @@ class ResCollection(list):
     return [serializer(res) for res in self.go()]
 
   def go(self):
-    if not self._has_run:
-      self._actual = self.query.evaluate()
-      self._has_run = True
+    if self._is_dirty:
+      self.data = self.query.evaluate()
+      self._is_dirty = False
     return self
 
   def create_query(self):

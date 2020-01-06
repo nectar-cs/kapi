@@ -4,7 +4,7 @@ from k8_kat.pod.kat_pod import KatPod
 from k8_kat.pod.pod_query_exec import PodQueryExec
 
 
-class PodCollection(ResCollection):
+class KatPods(ResCollection):
 
   def create_query(self):
     return ResQuery(PodQueryExec(), KatPod)

@@ -1,4 +1,4 @@
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 from k8_kat.base.res_query_exec import ResQueryExec
 
 

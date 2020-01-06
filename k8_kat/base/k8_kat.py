@@ -1,13 +1,13 @@
-from k8_kat.dep.dep_collection import DepCollection
-from k8_kat.pod.pod_collection import PodCollection
+from k8_kat.dep.dep_collection import KatDeps
+from k8_kat.pod.pod_collection import KatPods
 from k8_kat.svc.svc_collection import SvcCollection
 
 
 class K8Kat:
 
   @staticmethod
-  def deps(**kwargs) -> DepCollection:
-    collection = DepCollection()
+  def deps(**kwargs) -> KatDeps:
+    collection = KatDeps()
     return collection.where(**kwargs)
 
   @staticmethod
@@ -16,6 +16,6 @@ class K8Kat:
     return collection.where(**kwargs)
 
   @staticmethod
-  def pods(**kwargs) -> PodCollection:
-    collection = PodCollection()
+  def pods(**kwargs) -> KatPods:
+    collection = KatPods()
     return collection.where(**kwargs)

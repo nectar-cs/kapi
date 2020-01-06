@@ -1,6 +1,6 @@
 from kubernetes.client import V1ObjectMeta, V1PodSpec, V1Container
 
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 
 def create(subs):
   pod = broker.client.V1Pod(

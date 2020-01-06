@@ -4,6 +4,6 @@ from k8_kat.dep.dep_query_exec import DepQueryExec
 from k8_kat.dep.kat_dep import KatDep
 
 
-class DepCollection(ResCollection):
+class KatDeps(ResCollection):
   def create_query(self):
     return ResQuery(DepQueryExec(), KatDep)

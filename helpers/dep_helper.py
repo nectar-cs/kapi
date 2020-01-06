@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 from helpers.res_utils import ResUtils
 from helpers.svc_helper import SvcHelper
 from utils.utils import Utils

@@ -1,5 +1,5 @@
 from kubernetes.client import V1ObjectMeta, V1ServiceSpec, V1ServicePort
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 
 
 def create(ns, subs):

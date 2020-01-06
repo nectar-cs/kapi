@@ -1,6 +1,6 @@
 from kubernetes.client import V1Pod, V1ObjectMeta, V1PodSpec, V1Container
 
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 import time
 from kubernetes.stream import stream
 

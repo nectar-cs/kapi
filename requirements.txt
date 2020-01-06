@@ -3,9 +3,6 @@ cachetools==3.1.1
 certifi==2019.6.16
 chardet==3.0.4
 Click==7.0
-Flask==1.1.1
-Flask-Cors==3.0.8
-google-auth==1.6.3
 idna==2.8
 itsdangerous==1.1.0
 Jinja2==2.10.1
@@ -16,15 +13,9 @@ pyasn1==0.4.5
 pyasn1-modules==0.2.5
 python-dateutil==2.8.0
 PyYAML==5.1.1
-requests==2.22.0
-requests-oauthlib==1.2.0
 rsa==4.0
 six==1.12.0
 urllib3==1.25.3
 websocket-client==0.56.0
 Werkzeug==0.15.5
-Flask-SocketIO==3.3.1
 python-engineio==3.4.3
-python-socketio==3.1.2
-flask-shell-ipython
-sentry-sdk[flask]==0.13.0

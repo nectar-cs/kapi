@@ -1,7 +1,7 @@
 import re
 from utils.utils import Utils
 
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 from stunt_pods.stunt_pod import StuntPod
 
 HEADER_BODY_DELIM = "\r\n\r\n"

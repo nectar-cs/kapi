@@ -1,6 +1,6 @@
 from typing import List, Tuple, Dict
 
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 from k8_kat.events.kat_event import KatEvent
 
 

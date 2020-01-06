@@ -1,10 +1,9 @@
 import os
 import unittest
 from typing import Tuple, List
-from string import Template
 from kubernetes.client import V1Deployment, V1Service
 
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
 from helpers.res_utils import ResUtils
 from utils.utils import Utils
 
@@ -87,7 +86,10 @@ class K8katTest(unittest.TestCase):
   @classmethod
   def setUpClass(cls) -> None:
     cls.prepare_cluster()
-    broker.connect('outside')
+    broker.connect(
+      auth_type="out",
+      kubectl="microk8s.kubectl"
+    )
 
     if Utils.is_ci():
       for ns in NAMESPACES:

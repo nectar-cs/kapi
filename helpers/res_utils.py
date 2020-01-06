@@ -4,8 +4,7 @@ from typing import Optional, Dict, List
 from kubernetes.client import V1Service, V1ReplicaSet, V1Pod, V1Deployment
 from kubernetes.client.rest import ApiException
 
-from helpers.kube_broker import broker
-from k8_kat.base.kat_res import KatRes
+from k8_kat.base.kube_broker import broker
 from utils.utils import Utils
 
 
