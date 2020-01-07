@@ -1,7 +1,5 @@
 from analysis_suites.base.analysis_step import AnalysisStep
 from analysis_suites.network.copy import copy_tree
-from helpers.kube_broker import broker
-from k8_kat.base.k8_kat import K8Kat
 from stunt_pods.curl_pod import CurlPod
 from utils.utils import Utils
 

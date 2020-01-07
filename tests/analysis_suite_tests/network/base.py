@@ -1,7 +1,6 @@
 from unittest import mock
 from unittest.mock import PropertyMock, MagicMock
 
-from k8_kat.base.k8_kat import K8Kat
 from tests.k8_kat.base.k8_kat_test import K8katTest
 from utils.utils import Utils
 

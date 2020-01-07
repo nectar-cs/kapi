@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from flask import Blueprint, request, jsonify
 
-from k8_kat.base.k8_kat import K8Kat
 from stunt_pods.curl_pod import CurlPod
 
 controller = Blueprint('run_controller', __name__)
