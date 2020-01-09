@@ -1,16 +1,17 @@
+from k8_kat.base.kube_broker import broker
 from kubernetes.client import V1Pod, V1ObjectMeta, V1PodSpec, V1Container
 
-from helpers.kube_broker import broker
 import time
 from kubernetes.stream import stream
 
 from k8_kat.base.k8_kat import K8Kat
-from utils.utils import Utils
+
+from utils import utils
 
 
 class StuntPod:
   def __init__(self, **kwargs):
-    self.pod_name = kwargs.get('pod_name', f"stunt-pod-{Utils.rand_str(4)}")
+    self.pod_name = kwargs.get('pod_name', f"stunt-pod-{utils.rand_str(4)}")
     self.namespace = kwargs.get('namespace', 'nectar')
     self._image = "xnectar/curler:latest"
 

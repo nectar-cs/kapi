@@ -4,8 +4,8 @@ import importlib
 import inflection
 from flask import Blueprint, request
 
-from actions.docker_build_op import DockerBuildOp
-from actions.docker_push_op import DockerPushOp
+from helpers.docker_build_op import DockerBuildOp
+from helpers.docker_push_op import DockerPushOp
 
 controller = Blueprint('builds_controller', __name__)
 

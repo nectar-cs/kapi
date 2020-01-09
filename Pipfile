@@ -18,7 +18,9 @@ urllib3 = "~=1.25"
 cachetools = "~=3.1"
 rsa = "~=4.0"
 six = "~=1.12.0"
-k8-kat = {editable = true,path = "./../k8-kat"}
+inflection = "*"
+k8-kat = {path = "./../k8-kat"}
+python-dotenv = "*"
 
 [requires]
 python_version = "3.6"

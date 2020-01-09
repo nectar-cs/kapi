@@ -1,15 +1,16 @@
 import re
-from utils.utils import Utils
 
-from helpers.kube_broker import broker
+from k8_kat.base.kube_broker import broker
+
 from stunt_pods.stunt_pod import StuntPod
+from utils import utils
 
 HEADER_BODY_DELIM = "\r\n\r\n"
 
 class CurlPod(StuntPod):
   def __init__(self, **kwargs):
     super().__init__(**kwargs)
-    self.pod_name = kwargs.get('pod_name', f"curl-pod-{Utils.rand_str(4)}")
+    self.pod_name = kwargs.get('pod_name', f"curl-pod-{utils.rand_str(4)}")
 
   def curl(self, **curl_params):
     fmt_command = CurlPod.build_curl_cmd(**curl_params)

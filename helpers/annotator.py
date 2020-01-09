@@ -1,12 +1,12 @@
 import datetime
 
-from helpers.dep_helper import DepHelper
-from helpers.kube_broker import broker
+from k8_kat.base.k8_kat import K8Kat
+from k8_kat.base.kube_broker import broker
 
 
 class Annotator:
   def __init__(self, namespace, name, **kwargs):
-    self.deployment = DepHelper.find(namespace, name)
+    self.deployment = K8Kat.deps().ns(namespace).find(name)
     self.sha = kwargs['sha']
     self.message = kwargs['message']
     self.branch = kwargs['branch']

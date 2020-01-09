@@ -1,7 +1,4 @@
-import time
-
-
-from actions.docker_op import DockerOp
+from helpers.docker_op import DockerOp
 
 TAR_NAME = "repo-tar.tar.gz"
 WORK_DIR = "cloned-repo"

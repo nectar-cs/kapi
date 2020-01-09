@@ -1,10 +1,11 @@
-#!/usr/bin/env python3
 import os
 
 from flask import Blueprint, request, jsonify
-
-from helpers.dep_helper import DepHelper
-from helpers.kube_broker import broker
+from k8_kat.utils.main import utils as k8_kat_utils
+from k8_kat.base import broker_configs
+from k8_kat.base.k8_kat import K8Kat
+from k8_kat.base.kube_broker import broker
+from utils import utils as kapi_utils
 
 controller = Blueprint('status_controller', __name__)
 
@@ -15,7 +16,7 @@ def status():
 @controller.route('/api/status/restart', methods=['POST'])
 def restart():
   for which in request.json['deployments']:
-    DepHelper.restart_nectar_pods(which)
+    K8Kat.deps().ns('nectar').find(which).restart_pods()
   return jsonify(status='working')
 
 @controller.route('/api/status/connect')
@@ -26,9 +27,11 @@ def connect():
 
 def status_body():
   return jsonify(
-    think_am_connected=broker.is_connected,
-    auth_type=broker.auth_type,
-    auth_type_var=broker.env_auth_type()
+    is_connected=broker.is_connected,
+    default_env_config=broker_configs.default_config(),
+    connect_config=broker.connect_config,
+    kapi_env=kapi_utils.run_env(),
+    kat_env=k8_kat_utils.run_env()
   )
 
 @controller.route('/api/status/revision')

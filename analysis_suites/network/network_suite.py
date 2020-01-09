@@ -1,7 +1,10 @@
+from k8_kat.base.k8_kat import K8Kat
+from k8_kat.base.kube_broker import broker
+
 from analysis_suites.base.analysis_step import AnalysisStep
 from analysis_suites.network.copy import copy_tree
 from stunt_pods.curl_pod import CurlPod
-from utils.utils import Utils
+from utils import utils
 
 
 class BaseNetworkStep(AnalysisStep):
@@ -29,7 +32,7 @@ class BaseNetworkStep(AnalysisStep):
   @property
   def pod_label_comp(self):
     dep_labels = self.dep.pod_select_labels
-    return Utils.dict_to_eq_str(dep_labels)
+    return utils.dict_to_eq_str(dep_labels)
 
   @property
   def stunt_pod(self):

@@ -1,14 +1,16 @@
+import unittest
 from unittest import mock
 from unittest.mock import PropertyMock, MagicMock
 
-from tests.k8_kat.base.k8_kat_test import K8katTest
-from utils.utils import Utils
+from k8_kat.base.k8_kat import K8Kat
+
+from utils import utils
 
 TESTING_NS = "n1"
 TESTING_DEP_NM = "simple-app-dep"
 TESTING_SVC_NM = "simple-app-svc"
 
-class Base(K8katTest):
+class Base(unittest.TestCase):
 
   @classmethod
   def setUpClass(cls) -> None:
@@ -44,13 +46,13 @@ class Base(K8katTest):
     self.assertIsNotNone(self.step.outcome_copy())
 
   def mock_step_method(self, prop_name, value, callback):
-    mock_name = f"{Utils.fqcn(self.step)}.{prop_name}"
+    mock_name = f"{utils.fqcn(self.step)}.{prop_name}"
     with mock.patch(mock_name, new_callable=MagicMock) as v:
       v.return_value = value
       callback()
 
   def mock_step_prop(self, prop_name, value, callback):
-    mock_name = f"{Utils.fqcn(self.step)}.{prop_name}"
+    mock_name = f"{utils.fqcn(self.step)}.{prop_name}"
     with mock.patch(mock_name, new_callable=PropertyMock) as v:
       v.return_value = value
       callback()

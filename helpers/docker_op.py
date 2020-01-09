@@ -1,15 +1,21 @@
 import os
 
 import kubernetes
+from k8_kat.base.kube_broker import broker
 from kubernetes.client import V1ObjectMeta, V1PodSpec, V1Container, V1EnvVar, V1Pod
 from kubernetes.client.rest import ApiException
 
-from helpers.kube_broker import broker
 from k8_kat.base.k8_kat import K8Kat
-from utils.utils import Utils
+
+from utils import utils
 
 
 class DockerOp:
+
+  def __init__(self, pod_name):
+    self.pod_name = pod_name or self.gen_name()
+    self._daemon_host = None
+    self._pod = None
 
   @staticmethod
   def find(_id):
@@ -20,14 +26,9 @@ class DockerOp:
   def latest():
     res = broker.coreV1.list_namespaced_pod(
       namespace='nectar',
-      label_selector=Utils.dict_to_eq_str(DockerOp.pod_labels())
+      label_selector=utils.dict_to_eq_str(DockerOp.pod_labels())
     ).items[0]
     return __class__(res.metadata.name)
-
-  def __init__(self, pod_name):
-    self.pod_name = pod_name or self.gen_name()
-    self._daemon_host = None
-    self._pod = None
 
   def command(self):
     raise Exception("Unimplemented!")
@@ -105,7 +106,7 @@ class DockerOp:
 
   @staticmethod
   def gen_name():
-    return f"docker-worker-{Utils.rand_str(4)}"
+    return f"docker-worker-{utils.rand_str(4)}"
 
   @staticmethod
   def pod_labels():
@@ -115,5 +116,5 @@ class DockerOp:
   def purge():
     broker.coreV1.delete_collection_namespaced_pod(
       namespace='nectar',
-      label_selector=Utils.dict_to_eq_str(DockerOp.pod_labels())
+      label_selector=utils.dict_to_eq_str(DockerOp.pod_labels())
     )

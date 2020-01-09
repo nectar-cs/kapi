@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
-
 from flask import Blueprint, request, jsonify
+from k8_kat.dep.kat_dep import KatDep
 
-from actions.annotator import Annotator
-from helpers.res_utils import ResUtils
+from helpers.annotator import Annotator
 from k8_kat.base.k8_kat import K8Kat
 from k8_kat.dep.dep_composer import DepComposer
 from k8_kat.dep.dep_serializers import DepSerialization as Ser
@@ -28,7 +26,7 @@ def show(ns, name):
 
 @controller.route('/api/deployments/across_namespaces')
 def across_namespaces():
-  return jsonify(dict(data=ResUtils.dep_by_ns()))
+  return jsonify(dict(data=KatDep.across_namespaces()))
 
 @controller.route('/api/deployments/<ns>/<name>/pods')
 def deployment_pods(ns, name):
@@ -71,20 +69,22 @@ def params_to_deps():
   q = K8Kat.deps()
 
   ns_white = request.args.get('ns_filter_type', 'whitelist')
-  ns_white = True if ns_white == 'whitelist' else False
-  ns_filters = request.args.get('ns_filters')
-  ns_filters = ns_filters and ns_filters.split(',') or None
-
   lb_white = request.args.get('lb_filter_type', 'blacklist')
-  lb_white = True if lb_white == 'whitelist' else False
+
+  ns_filters = request.args.get('ns_filters')
   lb_filters = request.args.get('lb_filters')
+
+  is_ns_white = ns_white == 'whitelist'
+  is_lb_white = lb_white == 'whitelist'
+
+  ns_filters = ns_filters and ns_filters.split(',') or None
   lb_filters = lb_filters and eq_strs_to_tups(lb_filters)
 
-  if ns_filters is not None:
-    q = q.ns(ns_filters) if ns_white else q.not_ns(ns_filters)
+  ns_filtering_op = q.ns if is_ns_white else q.not_ns
+  q = ns_filtering_op(ns_filters)
 
-  if lb_filters is not None:
-    q = q.lbs_inc_each(lb_filters) if lb_white else q.lbs_exc_each(lb_filters)
+  lb_filtering_op = q.lbs_inc_each if is_lb_white else q.lbs_exc_each
+  q = lb_filtering_op(lb_filters)
 
   deps = q.go()
 
