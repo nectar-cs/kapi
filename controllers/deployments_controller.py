@@ -74,17 +74,14 @@ def params_to_deps():
   ns_filters = request.args.get('ns_filters')
   lb_filters = request.args.get('lb_filters')
 
-  is_ns_white = ns_white == 'whitelist'
-  is_lb_white = lb_white == 'whitelist'
-
   ns_filters = ns_filters and ns_filters.split(',') or None
   lb_filters = lb_filters and eq_strs_to_tups(lb_filters)
 
-  ns_filtering_op = q.ns if is_ns_white else q.not_ns
-  q = ns_filtering_op(ns_filters)
+  ns_filtering_op = q.ns if ns_white == 'whitelist' else q.not_ns
+  q = ns_filtering_op(ns_filters) if ns_filters is not None else q
 
-  lb_filtering_op = q.lbs_inc_each if is_lb_white else q.lbs_exc_each
-  q = lb_filtering_op(lb_filters)
+  lb_filtering_op = q.lbs_inc_each if lb_white == 'whitelist' else q.lbs_exc_each
+  q = lb_filtering_op(lb_filters) if lb_filters is not None else q
 
   deps = q.go()
 
