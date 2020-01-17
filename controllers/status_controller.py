@@ -1,10 +1,10 @@
 import os
 
 from flask import Blueprint, request, jsonify
+from k8_kat.auth import broker_configs
+from k8_kat.auth.kube_broker import broker
+from k8_kat.res.base.k8_kat import K8Kat
 from k8_kat.utils.main import utils as k8_kat_utils
-from k8_kat.base import broker_configs
-from k8_kat.base.k8_kat import K8Kat
-from k8_kat.base.kube_broker import broker
 from utils import utils as kapi_utils
 
 controller = Blueprint('status_controller', __name__)

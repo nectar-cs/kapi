@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 from flask import Blueprint, request, jsonify
-
-from k8_kat.base.k8_kat import K8Kat
-from k8_kat.events.event_serialization import EventSerialization
+from k8_kat.res.base.k8_kat import K8Kat
+from k8_kat.res.events.event_serialization import EventSerialization
 
 controller = Blueprint('pods_controller', __name__)
 

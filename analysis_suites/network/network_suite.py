@@ -1,9 +1,10 @@
-from k8_kat.base.k8_kat import K8Kat
-from k8_kat.base.kube_broker import broker
+from k8_kat.auth.kube_broker import broker
+from k8_kat.res.base.k8_kat import K8Kat
+from k8_kat.res.pod import pod_factory
+from k8_kat.stunt import stunt_pod
 
 from analysis_suites.base.analysis_step import AnalysisStep
 from analysis_suites.network.copy import copy_tree
-from stunt_pods.curl_pod import CurlPod
 from utils import utils
 
 
@@ -37,6 +38,7 @@ class BaseNetworkStep(AnalysisStep):
   @property
   def stunt_pod(self):
     if self._stunt_pod is None:
+      pod_factory.curl_pod(self.dep.ns, "curler")
       self._stunt_pod = CurlPod(
         pod_name="net-debug-pod",
         namespace=self.dep.ns,

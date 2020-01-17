@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import importlib
 
 import inflection
@@ -57,7 +56,7 @@ def new_job_bundle(operation):
   }
 
 def job_instance(job_type, job_id):
-  module_name = f"actions.{job_type}"
+  module_name = f"helpers.{job_type}"
   class_name = inflection.camelize(job_type, True)
   loaded_module = importlib.import_module(module_name)
   klass = getattr(loaded_module, class_name)

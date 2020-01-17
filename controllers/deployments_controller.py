@@ -1,13 +1,13 @@
 from flask import Blueprint, request, jsonify
-from k8_kat.dep.kat_dep import KatDep
+from k8_kat.res.base.k8_kat import K8Kat
+from k8_kat.res.dep.dep_composer import DepComposer
+from k8_kat.res.dep.dep_serializers import DepSerialization
+from k8_kat.res.dep.dep_warnings import DepWarnings
+from k8_kat.res.dep.kat_dep import KatDep
+from k8_kat.res.pod.pod_serialization import PodSerialization
+from k8_kat.res.svc.svc_serialization import SvcSerialization
 
 from helpers.annotator import Annotator
-from k8_kat.base.k8_kat import K8Kat
-from k8_kat.dep.dep_composer import DepComposer
-from k8_kat.dep.dep_serializers import DepSerialization as Ser
-from k8_kat.dep.dep_warnings import DepWarnings
-from k8_kat.pod.pod_serialization import PodSerialization
-from k8_kat.svc.svc_serialization import SvcSerialization
 
 controller = Blueprint('deployments_controller', __name__)
 
@@ -15,13 +15,13 @@ controller = Blueprint('deployments_controller', __name__)
 @controller.route('/api/deployments')
 def index():
   deps = params_to_deps()
-  serialized = [Ser.as_needed(dep) for dep in deps]
+  serialized = [DepSerialization.as_needed(dep) for dep in deps]
   return jsonify(dict(data=serialized))
 
 @controller.route('/api/deployments/<ns>/<name>')
 def show(ns, name):
   dep = K8Kat.deps().ns(ns).find(name).with_friends()
-  serialized = dep.serialize(Ser.with_pods_and_svcs)
+  serialized = dep.serialize(DepSerialization.with_pods_and_svcs)
   return jsonify(serialized)
 
 @controller.route('/api/deployments/across_namespaces')
@@ -43,13 +43,10 @@ def deployment_services(ns, name):
 
 @controller.route('/api/deployments/<ns>/<name>/annotate_git', methods=['POST'])
 def annotate(ns, name):
-  annotator = Annotator(
-    namespace=ns,
-    name=name,
-    **request.json
-  )
-  annotations = annotator.annotate()
-  return jsonify(dict(annotations=annotations))
+  j = request.json
+  sha, message, branch = [j['sha'], j['message'], j['branch']]
+  KatDep.find(ns, name).git_annotate(sha, message, branch)
+  return jsonify(dict(annotations={}))
 
 @controller.route('/api/deployments/<ns>/<name>/validate_labels', methods=['POST'])
 def validate_labels(ns, name):

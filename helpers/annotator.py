@@ -1,7 +1,7 @@
 import datetime
 
-from k8_kat.base.k8_kat import K8Kat
-from k8_kat.base.kube_broker import broker
+from k8_kat.auth.kube_broker import broker
+from k8_kat.res.base.k8_kat import K8Kat
 
 
 class Annotator:
@@ -20,8 +20,8 @@ class Annotator:
     }
 
   def annotate(self):
-    annotations = self.deployment.metadata.annotations
-    updated_annot = { **annotations, **self.gen_annotation_dict() }
+    annotations = self.deployment.raw.metadata.annotations
+    updated_annot = {**annotations, **self.gen_annotation_dict()}
     self.deployment.metadata.annotations = updated_annot
     broker.appsV1Api.patch_namespaced_deployment(
       name=self.deployment.metadata.name,

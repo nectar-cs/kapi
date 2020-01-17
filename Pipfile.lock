@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b706c72c5a0ec8d765d321395ac1a7ee1be0345f34d530bd107d37f7790db565"
+            "sha256": "a8f52dec4cb98d5b4ce27d3be2b4698263f589c346a0afd20710dcd73a0685fd"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -63,10 +63,10 @@
         },
         "google-auth": {
             "hashes": [
-                "sha256:7bb2034a3a290190cf4e3eb8ebf29e5025c90f0b06a00ba4d1fb94bf0c6448f7",
-                "sha256:c57074e594d2c6e3e316162734e8af3e15d40252022e69414cba67de66594417"
+                "sha256:053bd396de4a8e83bfd27d0606645735cf68cfe88ec166655efd823f2969a9ee",
+                "sha256:abc459495de01c46bbf37ee8d22e6ae9232b3c2e09cfa5f1122b1645603b5def"
             ],
-            "version": "==1.10.0"
+            "version": "==1.10.1"
         },
         "idna": {
             "hashes": [
@@ -97,12 +97,7 @@
             "version": "==2.10.3"
         },
         "k8-kat": {
-            "hashes": [
-                "sha256:a936e0c15307b8e15b4fdbe5873e2993f48df89723ec6a7887173716c7a20b07",
-                "sha256:adff436b5c91613b43898579d8d686314fa2c11f004f17861265ed8ee46ec7b5"
-            ],
-            "index": "pypi",
-            "version": "==0.0.11"
+            "path": "./../k8-kat"
         },
         "kubernetes": {
             "hashes": [

@@ -28,5 +28,6 @@ class TestClusterController(unittest.TestCase):
     response = app.test_client().get('/api/cluster/stunt_pods')
     self.assertEqual(response.status_code, 200)
 
+
 if __name__ == '__main__':
   unittest.main()

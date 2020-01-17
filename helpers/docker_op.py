@@ -1,11 +1,11 @@
 import os
 
 import kubernetes
-from k8_kat.base.kube_broker import broker
+from k8_kat.auth.kube_broker import broker
+from k8_kat.res.base.k8_kat import K8Kat
 from kubernetes.client import V1ObjectMeta, V1PodSpec, V1Container, V1EnvVar, V1Pod
 from kubernetes.client.rest import ApiException
 
-from k8_kat.base.k8_kat import K8Kat
 
 from utils import utils
 
