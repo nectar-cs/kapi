@@ -1,3 +1,5 @@
+from k8_kat.res.pod import pod_factory
+
 from analysis_suites.network.network_suite import BaseNetworkStep
 
 
@@ -12,7 +14,7 @@ class DoPodsConnectStep(BaseNetworkStep):
     return f"{pod.ip}:{self.to_port}"
 
   def curl_pass_fail(self, pod):
-    result = self.stunt_pod.curl(url=self.pod_endpoint(pod))
+    result = pod_factory.one_shot_curl(self.ns, url=self.pod_endpoint(pod))
     return {
       "name": pod.name,
       "pass": result['finished'],

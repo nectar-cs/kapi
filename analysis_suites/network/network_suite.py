@@ -1,7 +1,6 @@
 from k8_kat.auth.kube_broker import broker
-from k8_kat.res.base.k8_kat import K8Kat
-from k8_kat.res.pod import pod_factory
-from k8_kat.stunt import stunt_pod
+from k8_kat.res.dep.kat_dep import KatDep
+from k8_kat.res.svc.kat_svc import KatSvc
 
 from analysis_suites.base.analysis_step import AnalysisStep
 from analysis_suites.network.copy import copy_tree
@@ -12,9 +11,13 @@ class BaseNetworkStep(AnalysisStep):
   def __init__(self, **args):
     super().__init__()
     self.from_port = args['from_port']
-    self.dep = K8Kat.deps().ns(args['dep_ns']).find(args['dep_name'])
-    self.svc = K8Kat.svcs().ns(args['dep_ns']).find(args['svc_name'])
+    self.dep = KatDep.find(args['dep_ns'], args['dep_name'])
+    self.svc = KatSvc.find(args['dep_ns'], args['svc_name'])
     self._stunt_pod = None
+
+  @property
+  def ns(self):
+    return self.svc.ns
 
   @property
   def port_bundle(self):
@@ -34,17 +37,6 @@ class BaseNetworkStep(AnalysisStep):
   def pod_label_comp(self):
     dep_labels = self.dep.pod_select_labels
     return utils.dict_to_eq_str(dep_labels)
-
-  @property
-  def stunt_pod(self):
-    if self._stunt_pod is None:
-      pod_factory.curl_pod(self.dep.ns, "curler")
-      self._stunt_pod = CurlPod(
-        pod_name="net-debug-pod",
-        namespace=self.dep.ns,
-      )
-      self._stunt_pod.find_or_create()
-    return self._stunt_pod
 
   @property
   def api(self):

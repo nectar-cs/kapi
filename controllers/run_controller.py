@@ -9,17 +9,14 @@ controller = Blueprint('run_controller', __name__)
 def run_curl_command():
   j_body = request.json
   ns, name = [j_body['namespace'], "curl-man"]
-  curler = K8Kat.pods().ns(ns).find(name)
-  if not curler:
-    curler = KatPod(pod_factory.curl_pod(ns, name), True)
-  raw_curl_response = curler.run_curl(**j_body)
-  return jsonify(data=raw_curl_response)
+  response = pod_factory.one_shot_curl(ns, **j_body)
+  return jsonify(data=response)
 
 @controller.route('/api/run/cmd', methods=['POST'])
 def run_command():
   j = request.json
   ns, pod_name, cmd = j['pod_namespace'], j['pod_name'], j['command']
-  pod = K8Kat.pods().ns(ns).find(pod_name)
+  pod = KatPod.find(ns, pod_name)
   return jsonify(data=pod.shell_exec(cmd))
 
 @controller.route('/api/run/image_reload', methods=['POST'])

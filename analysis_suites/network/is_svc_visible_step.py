@@ -1,3 +1,5 @@
+from k8_kat.res.pod import pod_factory
+
 from analysis_suites.network.network_suite import BaseNetworkStep
 
 class IsSvcVisibleStep(BaseNetworkStep):
@@ -9,7 +11,7 @@ class IsSvcVisibleStep(BaseNetworkStep):
 
   def perform(self):
     command = f"nslookup {self.svc.short_dns}"
-    output = self.stunt_pod.run(command)
+    output = pod_factory.one_shot_cmd(self.ns, command)['output']
     lines = list(map(lambda l: l.strip(), output.split("\n")))
     lines = list(filter(lambda l: l, lines))
 
@@ -18,4 +20,3 @@ class IsSvcVisibleStep(BaseNetworkStep):
       outputs=lines,
       bundle={}
     )
-
