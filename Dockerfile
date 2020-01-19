@@ -4,6 +4,8 @@ WORKDIR /app
 
 ADD . /app
 
+ARG REVISION
+
 ENV LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
     REVISION=$REVISION \
